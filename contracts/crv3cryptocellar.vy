@@ -31,7 +31,6 @@ validators: public(HashMap[address, bool])
 lp_balance: public(uint256)
 owner: public(address)
 swap: public(address)
-serviceFee: public(uint256)
 
 APPROVE_MID: constant(Bytes[4]) = method_id("approve(address,uint256)")
 TRANSFER_MID: constant(Bytes[4]) = method_id("transfer(address,uint256)")
@@ -66,7 +65,6 @@ interface WrappedEth:
 def __init__(_name: String[64], _symbol: String[32]):
     self.name = _name
     self.symbol = _symbol
-    self.serviceFee = 50
     self.owner = msg.sender
     self.validators[msg.sender] = True
 
@@ -276,8 +274,3 @@ def transferOwnership(_owner: address):
 def setValidator(_validator: address, _value: bool):
     assert msg.sender == self.owner
     self.validators[_validator] = _value
-
-@external
-def setServiceFee(_serviceFee: uint256):
-    assert msg.sender == self.owner
-    self.serviceFee = _serviceFee
